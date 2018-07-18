@@ -678,13 +678,27 @@ class TaskPage(tk.Frame):
         task_panned = tk.PanedWindow(task_list_frame)
 
         task_panned.grid(row=1, column=1, stick='NSEW', columnspan=10)
-        canvas_panned_left = tk.Canvas(task_panned,height=110,width=220)
         frame_panned_left = ttk.Frame(task_panned,height=100,width=200)
         text_panned_right = tk.Text(task_panned,height=100,width=100)
         #TODO make panned window have a scroll bar
         # task_panned_left_scrollbar = tk.Scrollbar(task_panned,orient='vertical',command)
         task_panned.add(frame_panned_left)
         task_panned.add(text_panned_right)
+
+        canvas_panned_left = tk.Canvas(frame_panned_left,height=110,width=220)
+        canvas_panned_left.pack(fill='both',expand=True)
+        scroll_task_list = tk.Scrollbar(frame_panned_left,orient='vertical',command=canvas_panned_left.yview)
+        scroll_task_list.pack(side='right',fill='y',expand=True)
+        canvas_panned_left.configure(yscrollcommand=scroll_task_list.set)
+        display_task_frame = tk.Frame(canvas_panned_left)
+        canvas_panned_left.create_window((0,0),window=display_task_frame,anchor='nw')
+        display_task_frame.bind('<Configure>',lambda event:costom_config_canvas(event))
+
+
+
+
+
+
 
 
         #make buttons etc for list tasks
@@ -780,7 +794,7 @@ class TaskPage(tk.Frame):
             task_frame_count =[]
             for i,task in enumerate(list_of_tasks):
                 i_int = i
-                i = task_display_frame(task,frame_panned_left,'head_only')
+                i = task_display_frame(task,display_task_frame,'head_only')
                 i.grid(row=i_int, column=0)
                 task_frame_count.append(i)
 
@@ -844,6 +858,9 @@ class TaskPage(tk.Frame):
                task_frame.grid()
 
             return frame
+        def costom_config_canvas(event):
+            canvas = event.widget.master
+            canvas.configure(scrollregion=canvas.bbox('all'))
 
 
 
