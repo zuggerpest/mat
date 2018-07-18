@@ -705,10 +705,6 @@ class TaskPage(tk.Frame):
         list_task_search_contact_button.grid(row=1,column=5)
         list_task_button.grid(row=1,column=6)
 
-
-
-
-
         # function definitions
 
         def search_contact():
