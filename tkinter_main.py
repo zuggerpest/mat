@@ -601,14 +601,10 @@ class TaskPage(tk.Frame):
     def __init__(self, parent, controler):
         tk.Frame.__init__(self, parent)
         # add side frame for notes, one frame for a list of tasks.
-
         active_project_lable = tk.Label(self, text=f'Customer: <{current_customer.name}>'
                                                    f' Project: <{current_project.project_name}>')
 
-        # update_project_button = tk.Button(self, text='press to update', command=lambda: up_project_labels())
-
        # define the notebook its windows and
-       #  active_project_lable.grid(row=0, column=0)
         task_note = ttk.Notebook(self)
         task_list_frame = ttk.Frame(task_note)
         search_task_frame = ttk.Frame(task_note)
@@ -618,11 +614,6 @@ class TaskPage(tk.Frame):
         task_note.add(add_task_frame, text='Add Tasks')
 
         task_note.grid(row=1,column=0,stick='nesw')
-
-        # active projects
-        # active_customer_key_deets_label = tk.Label(active_project_frame, text='KEY Customer Details')
-
-        # active_customer_key_deets_label.grid()
 
          # add task
         task_label_list = ['Project ID',
@@ -651,16 +642,12 @@ class TaskPage(tk.Frame):
         pick_end_date_label = ttk.Label(add_task_frame, text='End Date')
         pick_start_date_label.grid(row=5,column=0,sticky='w')
         pick_end_date_label.grid(row=6,column=0,sticky='w')
-
-
         pick_start_date_entry = DateEntry(add_task_frame)
         pick_end_date_entry = DateEntry(add_task_frame)
         pick_start_date_entry.grid(row=5,column=1,sticky='e')
         pick_end_date_entry.grid(row=6,column=1,sticky='e')
 
-
         #define buttons, etc on the add tasks page
-
         add_task_button = ttk.Button(add_task_frame, text='Add Task', command=lambda: add_task_to_db(entry))
         take_task_button = ttk.Button(add_task_frame, text='Take Current', command=lambda: take_current())
         find_project_for_task_button = ttk.Button(add_task_frame, text='Search')
@@ -680,7 +667,6 @@ class TaskPage(tk.Frame):
         task_panned.grid(row=1, column=1, stick='NSEW', columnspan=10)
         frame_panned_left = ttk.Frame(task_list_frame,height=300,width=200)
         text_panned_right = tk.Text(task_panned,height=100,width=100)
-        #TODO make panned window have a scroll bar
         frame_panned_left.grid()
 
         canvas_panned_left = tk.Canvas(frame_panned_left,height=510,width=220)
@@ -695,19 +681,7 @@ class TaskPage(tk.Frame):
         task_panned.add(frame_panned_left)
         task_panned.add(text_panned_right)
 
-
-
-
-
         display_task_frame.bind('<Configure>',lambda event,canvas=canvas_panned_left:costom_config_canvas(canvas))
-
-
-
-
-
-
-
-
 
         #make buttons etc for list tasks
         list_task_label = ttk.Label(button_bar_frame, text="List tasks with triage or triage's comma separated list: P,L,A")
@@ -728,7 +702,6 @@ class TaskPage(tk.Frame):
         list_task_button.grid(row=1,column=6)
 
         # function definitions
-
         def search_contact():
             print('not yet implemented, will eventually search for the name of the contact, then pull its id into the box')
 
