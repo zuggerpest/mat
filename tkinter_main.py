@@ -681,7 +681,6 @@ class TaskPage(tk.Frame):
         frame_panned_left = ttk.Frame(task_list_frame,height=300,width=200)
         text_panned_right = tk.Text(task_panned,height=100,width=100)
         #TODO make panned window have a scroll bar
-        # task_panned_left_scrollbar = tk.Scrollbar(task_panned,orient='vertical',command)
         frame_panned_left.grid()
 
         canvas_panned_left = tk.Canvas(frame_panned_left,height=510,width=220)
@@ -692,6 +691,11 @@ class TaskPage(tk.Frame):
         scroll_task_list.pack(side='right',fill='y')
         canvas_panned_left.pack(side='left', fill='both', expand=True)
         canvas_panned_left.create_window((4,4),window=display_task_frame,anchor='nw')
+
+        task_panned.add(frame_panned_left)
+        task_panned.add(text_panned_right)
+
+
 
 
 
