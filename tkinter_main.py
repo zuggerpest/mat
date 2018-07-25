@@ -681,7 +681,17 @@ class TaskPage(tk.Frame):
         task_panned.add(frame_panned_left)
         task_panned.add(text_panned_right)
 
+        #make eveents for when display task frame or childres has focus
+        display_task_frame.bind('<Enter>',lambda event, canvas =canvas_panned_left:_bound_to_mousewheel(event,canvas))
+        display_task_frame.bind('<Leave>',lambda event, canvas =canvas_panned_left:_unbind_from_mousewheel(event,canvas))
+
+
+
+
         display_task_frame.bind('<Configure>',lambda event,canvas=canvas_panned_left:costom_config_canvas(canvas))
+        #display_task_frame.bind('<MouseWheel>',lambda event, canvas =canvas_panned_left:_bound_to_mousewheel(event,canvas))
+        #display_task_frame.bind('<Down>',lambda event: canvas_panned_left.yview(1,"units"))
+
 
         #make buttons etc for list tasks
         list_task_label = ttk.Label(button_bar_frame, text="List tasks with triage or triage's comma separated list: P,L,A")
@@ -844,8 +854,25 @@ class TaskPage(tk.Frame):
 
             return frame
         def costom_config_canvas(canvas):
-
+            #binds scrol to the canvas
             canvas.configure(scrollregion=canvas.bbox('all'))
+
+        def _bound_to_mousewheel(event, canvas):
+            'mouse wheel as scroll bar'
+            canvas.bind_all('<MouseWheel>',lambda event, canvas=canvas:_on_mousewheel(event,canvas))
+
+        def _unbind_from_mousewheel(event,canvas):
+            canvas.unbind_all('<MouseWheel>')
+
+
+        def _on_mousewheel(event, canvas):
+            #make canvas scroll sensibley
+            canvas.yview_scroll(int(-1*(event.delta/80)),'units')
+
+
+
+
+
 
 
 
