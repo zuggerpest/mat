@@ -815,10 +815,10 @@ class TaskPage(tk.Frame):
             '''
 
             frame = ttk.Frame(frame_to_display_on)
-            frame_header = ttk.Label(frame, text=f'{item.task_description} <{format_day_tasks(item.task_end_date)}>')
+            frame_header = ttk.Label(frame, text=f'{item.task_description} <-> {format_day_tasks(item.task_end_date)} <->')
             expand_frame_button = tk.Button(frame,text='+',height=0,width=0,command=lambda:expand_frame(item))
             frame_header.grid(row=0,column=0)
-            expand_frame_button.grid(row=1,column=0)
+            expand_frame_button.grid(row=0,column=1)
 
 
 
@@ -830,7 +830,7 @@ class TaskPage(tk.Frame):
                customer_for_frame = Customer.find_customer(project_for_frame.customer_id,'id')[0]
 
                task_win = tk.Toplevel()
-               task_win.wm_title(f'{task.task_description} --- {project_for_frame.project_name} --- {customer_for_frame.name}')
+               task_win.wm_title(f'{task.task_description} :---: {project_for_frame.project_name} :---: {customer_for_frame.name} :---:')
 
                task_frame = ttk.Frame(task_win)
                #add some meaningfull info to the frame, make it editible and saveable to the database,
@@ -839,10 +839,37 @@ class TaskPage(tk.Frame):
                 #key contact deets, add contact to customer, change contact deets
                customer_lable_frame = ttk.LabelFrame(task_frame,text='Customer')
                customer_lable_frame.grid(row=0,column=0)
-               customer_name_entry = ttk.Entry(customer_lable_frame)
-               customer_name_entry.insert(0,customer_for_frame.name)
+               #get all the labels from customer
+               #add allthe names and items to a dictinarry
+               #make entrys (labeled - properley) for all relevetn customer items
+               customer_labels = ['customer_name',
+                                   'customer_address',
+                                   'customer_postcode',
+                                   'customer_phone',
+                                   'customer_mobile',
+                                   'customer_email',
+                                   'customer_type',
+                                   'customer_id',
+                                  ]
+               customer_entry ={}
+               customer_entry_label={}
 
-               customer_name_entry.grid()
+               for i,_name in enumerate(customer_labels):
+                   e = ttk.Entry(customer_lable_frame)
+                   entry[_name] = e
+                   e.grid(sticky='e',column=1)
+
+                   lb = ttk.Label(customer_lable_frame,text=_name[9:])
+                   lb.grid(row=i, column=0, sticky='w')
+
+                   e.insert(0,getattr(customer_for_frame,f'{_name[9:]}'))
+
+
+
+
+               #customer_name_entry.insert(0,customer_for_frame.name)
+
+
 
 
 
@@ -867,7 +894,7 @@ class TaskPage(tk.Frame):
 
         def _on_mousewheel(event, canvas):
             #make canvas scroll sensibley
-            canvas.yview_scroll(int(-1*(event.delta/80)),'units')
+            canvas.yview_scroll(int(-1*(event.delta/70)),'units')
 
 
 
