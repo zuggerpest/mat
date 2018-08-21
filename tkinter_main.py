@@ -201,7 +201,6 @@ class CustomersPage(tk.Frame):
         customer_type_entry.grid(row=7,column=1,sticky='e')
         add_customer_button.grid(row=8, columnspan=2, sticky='nsew')
 
-
         # add find customer widgets etc
 
         search_by_var = ['Name', 'Address', 'Postcode', 'Email', 'Phone', 'Mobile']
@@ -837,8 +836,11 @@ class TaskPage(tk.Frame):
 
                #section for the customer
                 #key contact deets, add contact to customer, change contact deets
-               customer_lable_frame = ttk.LabelFrame(task_frame,text='Customer')
-               customer_lable_frame.grid(row=0,column=0)
+               project_lable_frame = ttk.LabelFrame(task_frame, text='Project')
+               project_lable_frame.grid(row=0,column=0)
+               customer_lable_frame = ttk.LabelFrame(task_frame,text='Customer', padding=14.7)
+               customer_lable_frame.grid(row=1,column=0)
+
                #get all the labels from customer
                #add allthe names and items to a dictinarry
                #make entrys (labeled - properley) for all relevetn customer items
@@ -858,11 +860,32 @@ class TaskPage(tk.Frame):
                    e = ttk.Entry(customer_lable_frame)
                    entry[_name] = e
                    e.grid(sticky='e',column=1)
-
-                   lb = ttk.Label(customer_lable_frame,text=_name[9:])
+                   lb = ttk.Label(customer_lable_frame,text=_name[9:].title())
                    lb.grid(row=i, column=0, sticky='w')
-
                    e.insert(0,getattr(customer_for_frame,f'{_name[9:]}'))
+
+                   project_labels= {'Project Name':'project_name',
+                                         'Project Reference':'project_reference',
+                                         'Project Address':'project_address',
+                                         'Project Postcode':'project_postcode',
+                                         'Primary Contact':'primary_contact',
+                                         'Project Type':'project_type',
+                                         'Project Price Approx':'project_price_approx',
+                                         'Project Expected Profit':'project_expected_profit',
+                                         'Project Triage':'project_triage',
+                                         'Project Lead MES':'project_lead_mes',
+                                          }
+
+               for i,_name in enumerate(project_labels.keys()):
+                   e = ttk.Entry(project_lable_frame)
+                   entry[_name] = e
+                   e.grid(sticky='e',column=1)
+                   lb = ttk.Label(project_lable_frame,text=_name[8:])
+                   lb.grid(row=i, column=0, sticky='w')
+                   # make something to convert list names to actual
+
+
+                   e.insert(0,getattr(project_for_frame,project_labels[_name]))
 
 
 
